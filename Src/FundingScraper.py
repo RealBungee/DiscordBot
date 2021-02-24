@@ -60,5 +60,5 @@ def getETHFunding():
     string += element.text + "\n```"
     return string
 
-def refreshPage():
-    driver.refresh()
+def getLiquidations():
+    driver.get('https://www.viewbase.com/liquidation')
