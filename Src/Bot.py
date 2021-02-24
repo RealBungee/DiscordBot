@@ -4,15 +4,13 @@ import random
 import threading
 import requests
 import json
+import discord
 
-from tabulate import tabulate
 from dotenv import load_dotenv
 from discord.ext import commands
-from FundingScraper import getBTCFunding
-from FundingScraper import getETHFunding
 
 #variables
-fundingHead = "Binance \tBybit\tBitmex\tFTX\tOkex\tHuobi"
+fundingHead = "Binance\tBybit\tBitmex\tFTX\t\tOkex\tHuobi"
 exchanges = "Binance", "Bybit", "Bitmex", "FTX", "Okex", "Huobi"
 string = ""
 
@@ -27,15 +25,6 @@ GUILD = os.getenv('GUILD_TOKEN')
 bot = commands.Bot(command_prefix='!')
 
 print("---------------Sexy bot is starting---------------------")
-@bot.command()
-async def btc(ctx):
-    await ctx.send(getBTCFunding())
-    print("Scraping BTC funding")
-
-@bot.command()
-async def eth(ctx):
-    await ctx.send(getETHFunding())
-    print("Scraping ETH funding")
 
 @bot.event
 async def on_member_join(member):
@@ -63,23 +52,26 @@ async def f(ctx, arg):
     except IndexError:
         await ctx.send("```No data for " + arg.upper() + "```")
     else:
-        await ctx.send(printFunding(funding))
+        await ctx.send(embed=printFunding(funding, arg))
     print("Getting " + arg.upper() + " funding")
 
 
 #idea for the bot - add the ability to show 1min - 15 min - 1H, 4H, D, W charts of coins
-def printFunding(funding):
+def printFunding(funding, arg):
     string = "```" + fundingHead + "\n"
+    embedVar = discord.Embed(title="Funding for: " + arg.upper(), color=0x00ff00)
     for e in exchanges:
         try:
-            string += str(funding[e]['predictedRate']) + "\t"
+            string += str("{0:.4f}".format(funding[e]['predictedRate'])) + "\t"
+            embedVar.add_field(name = e, value = "{0:.4f}".format(funding[e]['predictedRate']))
         except KeyError:
             try:
-                string += str(funding[e]['rate']) + "\t"
+                string += str("{0:.4f}".format(funding[e]['rate'])) + "\t"
+                embedVar.add_field(name = e, value = "{0:.4f}".format(funding[e]['rate']))
             except KeyError:
                 string += "No Data\t"
     string += "\n```"
-    return string
+    return embedVar
 
 
 bot.run(TOKEN)
