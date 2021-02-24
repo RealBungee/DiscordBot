@@ -26,13 +26,6 @@ bot = commands.Bot(command_prefix='!')
 
 print("---------------Sexy bot is starting---------------------")
 
-@bot.event
-async def on_member_join(member):
-    await member.create_dm()
-    await member.dm_channel.send(
-        f'Hi {member.name}, welcome to my Discord server!'
-    )
-
 @bot.command()
 async def oi(ctx):
     params = {
