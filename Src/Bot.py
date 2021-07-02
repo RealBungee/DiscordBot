@@ -6,8 +6,10 @@ import requests
 import json
 import discord
 
+
 from dotenv import load_dotenv
 from discord.ext import commands
+from TwitterBot.py import get_most_recent_tweets
 
 #variables
 fundingHead = "Binance\tBybit\tBitmex\tFTX\t\tOkex\tHuobi"
@@ -47,6 +49,11 @@ async def f(ctx, arg):
     else:
         await ctx.send(embed=printFunding(funding, arg))
     print("Getting " + arg.upper() + " funding")
+
+@bot.command()
+async def tweets():
+    response = get_most_recent_tweets()
+    print(json.dumps(response, indent=4, sort_keys=True))
 
 
 #idea for the bot - add the ability to show 1min - 15 min - 1H, 4H, D, W charts of coins

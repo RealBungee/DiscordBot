@@ -16,6 +16,21 @@ def create_url():
     user_id = 44196397
     return "https://api.twitter.com/2/users/{}/tweets".format(user_id)
 
+def create_headers(bearer_token):
+    headers = {"Authorization": "Bearer {}".format(bearer_token)}
+    return headers
+
+
+def connect_to_endpoint(url, headers, params):
+    response = requests.request("GET", url, headers=headers, params=params)
+    print(response.status_code)
+    if response.status_code != 200:
+        raise Exception(
+            "Request returned an error: {} {}".format(
+                response.status_code, response.text
+            )
+        )
+    return response.json()
 
 def get_params():
     # Tweet fields are adjustable.
@@ -25,17 +40,20 @@ def get_params():
     # in_reply_to_user_id, lang, non_public_metrics, organic_metrics,
     # possibly_sensitive, promoted_metrics, public_metrics, referenced_tweets,
     # source, text, and withheld
-    return {"tweet.fields": "created_at"}
+    return {
+        "user_id": 44196397,
+        "since_id": 1409608806875615242
+    }
 
+def get_tweets()
+    bearer_token = auth()
+    url = create_url()
+    headers = create_headers(bearer_token):
+    params = get_params()
+    return get_most_recent_tweets(url, headres, params)
 
-def create_headers(bearer_token):
-    headers = {"Authorization": "Bearer {}".format(bearer_token)}
-    return headers
-
-
-def connect_to_endpoint(url, headers, params):
-    response = requests.request("GET", url, headers=headers, params=params)
-    print(response.status_code)
+def get_most_recent_tweets(url, headers, params):
+    response = requests.request("GET", url, headers = headers, params = params)
     if response.status_code != 200:
         raise Exception(
             "Request returned an error: {} {}".format(
