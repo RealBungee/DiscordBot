@@ -5,11 +5,12 @@ import threading
 import requests
 import json
 import discord
+import TwitterBot
 
 
 from dotenv import load_dotenv
 from discord.ext import commands
-from TwitterBot.py import get_most_recent_tweets
+from TwitterBot import get_tweets
 
 #variables
 fundingHead = "Binance\tBybit\tBitmex\tFTX\t\tOkex\tHuobi"
@@ -51,9 +52,10 @@ async def f(ctx, arg):
     print("Getting " + arg.upper() + " funding")
 
 @bot.command()
-async def tweets():
-    response = get_most_recent_tweets()
+async def tweets(ctx):
+    response = get_tweets()
     print(json.dumps(response, indent=4, sort_keys=True))
+    await ctx.send("Received tweets")
 
 
 #idea for the bot - add the ability to show 1min - 15 min - 1H, 4H, D, W charts of coins

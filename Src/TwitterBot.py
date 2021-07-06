@@ -41,16 +41,15 @@ def get_params():
     # possibly_sensitive, promoted_metrics, public_metrics, referenced_tweets,
     # source, text, and withheld
     return {
-        "user_id": 44196397,
         "since_id": 1409608806875615242
     }
 
-def get_tweets()
+def get_tweets():
     bearer_token = auth()
     url = create_url()
-    headers = create_headers(bearer_token):
+    headers = create_headers(bearer_token)
     params = get_params()
-    return get_most_recent_tweets(url, headres, params)
+    return get_most_recent_tweets(url, headers, params)
 
 def get_most_recent_tweets(url, headers, params):
     response = requests.request("GET", url, headers = headers, params = params)
