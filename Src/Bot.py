@@ -55,7 +55,7 @@ async def f(ctx, arg):
 async def tweets(ctx):
     tweets = json.loads(get_tweets())
     for t in tweets['data']
-    print(tweets['data'][t]['id'])
+    print(tweets["data"]["id"])
     #print(json.dumps(response, indent=4, sort_keys=True))
     await ctx.send("Received tweets")
 
