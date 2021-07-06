@@ -53,8 +53,10 @@ async def f(ctx, arg):
 
 @bot.command()
 async def tweets(ctx):
-    response = get_tweets()
-    print(json.dumps(response, indent=4, sort_keys=True))
+    tweets = json.loads(get_tweets())
+    for t in tweets['data']
+    print(tweets['data'][t]['id'])
+    #print(json.dumps(response, indent=4, sort_keys=True))
     await ctx.send("Received tweets")
 
 
